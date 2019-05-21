@@ -1,0 +1,46 @@
+# Items
+item.cocoa_powder.name=Cocoa Powder
+item.cooked_bat.name=Cooked Bat Meat
+item.cooked_cat.name=Delicious Steak
+item.cooked_dragon.name=Cooked Dragon Meat
+item.cooked_guardian.name=Guardian Filet
+item.cooked_horse.name=Delicious Steak
+item.cooked_shulker.name=Cooked Shulker
+item.cooked_silverfish.name="Shrimp"
+item.cooked_spider_eye.name=Cooked Spider Eye
+item.cooked_spider_leg.name=Cooked Spider Leg
+item.cooked_squid.name=Cooked Squid
+item.cooked_villager.name=Delicious Steak
+item.cooked_wolf.name=Delicious Steak
+item.dough.name=Dough
+item.fat.name=Fat
+item.flour.name=Flour
+item.fuel_pellet.name=Fuel Pellet
+item.gelatin.name=Gelatin
+item.horse_hair.name=Horse Hair
+item.jelly_cube.name=Jelly
+item.raw_bat.name=Raw Bat Meat
+item.raw_bread.name=Raw Bread
+item.raw_cat.name=Raw Cat
+item.raw_cookie.name=Raw Cookie
+item.raw_dragon.name=Raw Dragon Meat
+item.raw_ghast.name=Ghast Meat
+item.raw_guardian.name=Raw Guardian Filet
+item.raw_horse.name=Raw Horse Meat
+item.raw_shulker.name=Raw Shulker
+item.raw_silverfish.name=Raw Silverfish
+item.raw_spider_leg.name=Raw Spider Leg
+item.raw_squid.name=Raw Squid
+item.raw_villager.name=Raw Flesh
+item.raw_wolf.name=Raw Wolf Meat
+item.withered_bone.name=Withered Bone
+
+
+
+# Blocks
+tile.oreCopper.name=Copper Ore
+tile.gold_brick.name=Gold Brick
+tile.glowstone.name=Glowstone
+
+# Mod title
+itemGroup.eattheworld=Eat The World
