@@ -1,6 +1,6 @@
 package com.beetrootmonkey.eattheworld.item.edible;
 
-import com.beetrootmonkey.eattheworld.init.Main;
+import com.beetrootmonkey.eattheworld.Main;
 import com.beetrootmonkey.eattheworld.item.ItemModelProvider;
 import net.minecraft.item.ItemFood;
 

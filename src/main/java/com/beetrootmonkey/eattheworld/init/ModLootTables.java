@@ -1,5 +1,6 @@
 package com.beetrootmonkey.eattheworld.init;
 
+import com.beetrootmonkey.eattheworld.Main;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTableList;
 

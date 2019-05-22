@@ -1,9 +1,8 @@
 package com.beetrootmonkey.eattheworld.crafting;
 
-import com.beetrootmonkey.eattheworld.config.Cfg;
-import com.beetrootmonkey.eattheworld.config.Cfg.Recipes;
-import com.beetrootmonkey.eattheworld.init.Main;
+import com.beetrootmonkey.eattheworld.Main;
 import com.beetrootmonkey.eattheworld.item.ModItems;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,14 +15,13 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
 
-import static com.beetrootmonkey.eattheworld.crafting.RecipeUtils.*;
+import static com.beetrootmonkey.eattheworld.config.ModConfig.RECIPES;
+import static com.beetrootmonkey.eattheworld.crafting.RecipeUtils.removeRecipes;
 
 public class ModRecipes {
 
@@ -32,20 +30,25 @@ public class ModRecipes {
     private static void registerCraftingRecipes() {
         String group = Main.MOD_ID;
 
-        if (Recipes.cocoaPowder && !Loader.isModLoaded("harvestcraft")) {
+        if (RECIPES.cocoaPowder && !Loader.isModLoaded("harvestcraft")) {
             recipes.add(new ShapelessRecipes(group, new ItemStack(ModItems.cocoa_powder), toIngredients(
                     new ItemStack(Items.DYE, 1, 3))).setRegistryName("cocoa_powder"));
         }
 
-        if (Recipes.dough && !Loader.isModLoaded("harvestcraft")) {
+        if (RECIPES.dough && !Loader.isModLoaded("harvestcraft")) {
             if (OreDictionary.doesOreNameExist("foodFlour")) {
-                recipes.add(new ShapelessRecipes(group, new ItemStack(ModItems.fuel_pellet, 16),
-                        toIngredients(toIngredient("foodFlour"), Ingredient.fromItem(Items.WATER_BUCKET))).setRegistryName("dough"));
+                for (int i = 1; i < 9; i++) {
+                    Ingredient[] ingredients = new Ingredient[i + 1];
+                    Arrays.fill(ingredients, toIngredient("foodFlour"));
+                    ingredients[0] = Ingredient.fromItem(Items.WATER_BUCKET);
+                    recipes.add(new ShapelessRecipes(group, new ItemStack(ModItems.dough, i),
+                            toIngredients(ingredients)).setRegistryName("dough_" + i));
+                }
             }
         }
 
 
-        if (Recipes.fuelPellet) {
+        if (RECIPES.fuelPellet) {
             recipes.add(new ShapelessRecipes(group, new ItemStack(ModItems.fuel_pellet, 8),
                     toIngredients(Ingredient.fromStacks(new ItemStack(Items.COAL), new ItemStack(Items.COAL, 1, 1)))).setRegistryName("fuel_pellet_coal"));
 
@@ -55,12 +58,12 @@ public class ModRecipes {
             }
         }
 
-        if (Recipes.horseHairToString) {
+        if (RECIPES.horseHairToString) {
             recipes.add(new ShapedRecipes(group, 3, 1, toIngredients(ModItems.horse_hair, ModItems.horse_hair,
                     ModItems.horse_hair), new ItemStack(Items.STRING, 2)).setRegistryName("horse_hair_to_string"));
         }
 
-        if (Recipes.jelly) {
+        if (RECIPES.jelly) {
             if (OreDictionary.doesOreNameExist("listAllsugar")) {
                 recipes.add(new ShapelessRecipes(group, new ItemStack(ModItems.jelly_cube),
                         toIngredients(toIngredient("slimeball"), toIngredient("listAllsugar"))).setRegistryName("sugar_to_jelly"));
@@ -70,132 +73,139 @@ public class ModRecipes {
             }
         }
 
-        if(!Loader.isModLoaded("harvestcraft")) {
-            switch (Recipes.bread) {
+        if (!Loader.isModLoaded("harvestcraft")) {
+            switch (RECIPES.bread) {
                 case 4:
-                    removeRecipes(Items.BREAD, Items.WHEAT);
+                    removeRecipes("minecraft:bread");
                     GameRegistry.addSmelting(ModItems.raw_bread, new ItemStack(Items.BREAD), 0.35f);
                 case 3:
                     recipes.add(new ShapelessRecipes(group, new ItemStack(ModItems.raw_bread),
-                            toIngredients(toIngredient("foodDough"))).setRegistryName("bread_from_dough"));
+                            toIngredients(toIngredient("foodDough"), toIngredient("foodDough"),
+                                    toIngredient("foodDough"))).setRegistryName("bread_from_dough"));
                     break;
                 case 2:
-                    removeRecipes(Items.BREAD, Items.WHEAT);
+                    removeRecipes("minecraft:bread");
                     recipes.add(new ShapelessRecipes(group, new ItemStack(Items.BREAD),
-                            toIngredients(toIngredient("foodDough"))).setRegistryName("bread_from_dough"));
+                            toIngredients(toIngredient("foodDough"), toIngredient("foodDough"),
+                                    toIngredient("foodDough"))).setRegistryName("bread_from_dough"));
                     break;
                 case 1:
-                    removeRecipes(Items.BREAD, Items.WHEAT);
+                    removeRecipes("minecraft:bread");
                     break;
             }
         } else {
-            removeRecipes(Items.BREAD, Items.WHEAT);
+            removeRecipes("minecraft:bread");
         }
 
 
-//        if (Cfg.Recipes.fatForTorches > 0) {
-//            if(OreDictionary.doesOreNameExist("stickWood")) {
-//                GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(Blocks.TORCH), Cfg.Recipes.fatForTorches),
-//                        "F", "S", 'F', "itemFat", 'S', "stickWood"));
-//            } else {
-//                GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(Blocks.TORCH), Cfg.Recipes.fatForTorches),
-//                        "F", "S", 'F', "itemFat",'S', Items.STICK));
-//            }
-//
-//        }
+        if (RECIPES.torchesPerFat > 0) {
+            if(OreDictionary.doesOreNameExist("stickWood")) {
+                recipes.add(new ShapedRecipes(group, 1, 2, toIngredients(toIngredient("itemFat"), toIngredient("stickWood")),
+                        new ItemStack(Item.getItemFromBlock(Blocks.TORCH), RECIPES.torchesPerFat)).setRegistryName("torches_from_fat"));
+            } else {
+                recipes.add(new ShapedRecipes(group, 1, 2, toIngredients(toIngredient("itemFat"), Ingredient.fromItem(Items.STICK)),
+                        new ItemStack(Item.getItemFromBlock(Blocks.TORCH), RECIPES.torchesPerFat)).setRegistryName("torches_from_fat"));
+            }
 
-//        switch (Cfg.Recipes.cookie) {
-//            case 4:
-//                removeRecipe(Items.COOKIE);
-//                GameRegistry.addSmelting(ModItems.raw_cookie, new ItemStack(Items.COOKIE), 0.35f);
-//            case 3:
-//                if(OreDictionary.doesOreNameExist("foodChocolatebar")) {
-//                    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.raw_cookie, 16), "foodChocolatebar", "foodDough", "foodDough"));
-//                } else {
-//                    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.raw_cookie, 16), "foodCocoapowder", "foodDough", "foodDough"));
-//                }
-//                break;
-//            case 2:
-//                removeRecipe(Items.COOKIE);
-//                if(OreDictionary.doesOreNameExist("foodChocolatebar")) {
-//                    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.COOKIE, 16), "foodChocolatebar", "foodDough", "foodDough"));
-//                } else {
-//                    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.COOKIE, 16), "foodCocoapowder", "foodDough", "foodDough"));
-//                }
-//                break;
-//            case 1:
-//                removeRecipe(Items.COOKIE);
-//                break;
-//        }
-//
-        if (Recipes.seedsToFlour > 0 && !Loader.isModLoaded("harvestcraft")) {
-            Object[] arr = IntStream.range(0, Recipes.seedsToFlour).mapToObj(i -> Items.WHEAT_SEEDS).toArray();
+        }
+
+        switch (RECIPES.cookie) {
+            case 4:
+                removeRecipes("minecraft:cookie");
+                GameRegistry.addSmelting(ModItems.raw_cookie, new ItemStack(Items.COOKIE), 0.35f);
+            case 3:
+                if(OreDictionary.doesOreNameExist("foodChocolatebar")) {
+                    recipes.add(new ShapelessRecipes(group, new ItemStack(ModItems.raw_cookie, 8),
+                            toIngredients(toIngredient("foodChocolatebar"), toIngredient("foodDough"),
+                                    toIngredient("foodDough"))).setRegistryName("cookies_from_dough"));
+                } else {
+                    recipes.add(new ShapelessRecipes(group, new ItemStack(ModItems.raw_cookie, 8),
+                            toIngredients(toIngredient("foodCocoapowder"), toIngredient("foodDough"),
+                                    toIngredient("foodDough"), Ingredient.fromItem(Items.SUGAR))).setRegistryName("cookies_from_dough"));
+                }
+                break;
+            case 2:
+                if(OreDictionary.doesOreNameExist("foodChocolatebar")) {
+                    recipes.add(new ShapelessRecipes(group, new ItemStack(Items.COOKIE, 8),
+                            toIngredients(toIngredient("foodChocolatebar"), toIngredient("foodDough"),
+                                    toIngredient("foodDough"))).setRegistryName("cookies_from_dough"));
+                } else {
+                    recipes.add(new ShapelessRecipes(group, new ItemStack(Items.COOKIE, 8),
+                            toIngredients(toIngredient("foodCocoapowder"), toIngredient("foodDough"),
+                                    toIngredient("foodDough"), Ingredient.fromItem(Items.SUGAR))).setRegistryName("cookies_from_dough"));
+                }
+                break;
+            case 1:
+                removeRecipes("minecraft:cookie");
+                break;
+        }
+
+        if (RECIPES.seedsToFlour > 0 && !Loader.isModLoaded("harvestcraft")) {
+            Item[] arr = new Item[RECIPES.seedsToFlour];
+            Arrays.fill(arr, Items.WHEAT_SEEDS);
             recipes.add(new ShapelessRecipes(group, new ItemStack(ModItems.flour),
-                    toIngredients((Item[])arr)).setRegistryName("seeds_to_flour"));
+                    toIngredients(arr)).setRegistryName("seeds_to_flour"));
         }
 
-        if (Recipes.wheatToFlour > 0 && !Loader.isModLoaded("harvestcraft")) {
-            Object[] arr = IntStream.range(0, Recipes.wheatToFlour).mapToObj(i -> OreDictionary.doesOreNameExist("cropWheat") ? "cropWheat" : Items.WHEAT).toArray();
+        if (RECIPES.wheatToFlour > 0 && !Loader.isModLoaded("harvestcraft")) {
+            Item[] arr = new Item[RECIPES.wheatToFlour];
+            Arrays.fill(arr, Items.WHEAT);
             recipes.add(new ShapelessRecipes(group, new ItemStack(ModItems.flour),
-                    toIngredients((Item[])arr)).setRegistryName("wheat_to_flour"));
+                    toIngredients(arr)).setRegistryName("wheat_to_flour"));
         }
 
-        if (Recipes.wheatToSeeds > 0) {
-            recipes.add(new ShapelessRecipes(group, new ItemStack(Items.WHEAT_SEEDS, Recipes.wheatToSeeds),
+        if (RECIPES.wheatToSeeds > 0) {
+            recipes.add(new ShapelessRecipes(group, new ItemStack(Items.WHEAT_SEEDS, RECIPES.wheatToSeeds),
                     toIngredients(Ingredient.fromItem(Items.WHEAT))).setRegistryName("wheat_to_seeds"));
         }
     }
 
     private static void registerSmeltingRecipes() {
 
-        if (Recipes.cookedBat) {
+        if (RECIPES.cookedBat) {
             GameRegistry.addSmelting(ModItems.raw_bat, new ItemStack(ModItems.cooked_bat), 0.35f);
         }
-        if (Recipes.cookedCat) {
+        if (RECIPES.cookedCat) {
             GameRegistry.addSmelting(ModItems.raw_cat, new ItemStack(ModItems.cooked_cat), 0.35f);
         }
 
-        if (Recipes.cookedDragon) {
+        if (RECIPES.cookedDragon) {
             GameRegistry.addSmelting(ModItems.raw_dragon, new ItemStack(ModItems.cooked_dragon), 0.35f);
         }
 
-        if (Recipes.cookedGuardian) {
+        if (RECIPES.cookedGuardian) {
             GameRegistry.addSmelting(ModItems.raw_guardian, new ItemStack(ModItems.cooked_guardian), 0.35f);
         }
 
-        if (Recipes.cookedHorse) {
+        if (RECIPES.cookedHorse) {
             GameRegistry.addSmelting(ModItems.raw_horse, new ItemStack(ModItems.cooked_horse), 0.35f);
         }
 
-        if (Recipes.cookedShulker) {
+        if (RECIPES.cookedShulker) {
             GameRegistry.addSmelting(ModItems.raw_shulker, new ItemStack(ModItems.cooked_shulker), 0.35f);
         }
 
-        if (Recipes.cookedSilverfish) {
+        if (RECIPES.cookedSilverfish) {
             GameRegistry.addSmelting(ModItems.raw_silverfish, new ItemStack(ModItems.cooked_silverfish), 0.35f);
         }
 
-        if (Recipes.cookedSpiderEye) {
+        if (RECIPES.cookedSpiderEye) {
             GameRegistry.addSmelting(Items.SPIDER_EYE, new ItemStack(ModItems.cooked_spider_eye), 0.35f);
         }
 
-        if (Recipes.cookedSpiderLeg) {
-            GameRegistry.addSmelting(ModItems.raw_spider_leg, new ItemStack(ModItems.cooked_spider_leg), 0.35f);
-        }
-
-        if (Recipes.cookedSquid) {
+        if (RECIPES.cookedSquid) {
             GameRegistry.addSmelting(ModItems.raw_squid, new ItemStack(ModItems.cooked_squid), 0.35f);
         }
 
-        if (Recipes.cookedVillager) {
+        if (RECIPES.cookedVillager) {
             GameRegistry.addSmelting(ModItems.raw_villager, new ItemStack(ModItems.cooked_villager), 0.35f);
         }
 
-        if (Recipes.cookedWolf) {
+        if (RECIPES.cookedWolf) {
             GameRegistry.addSmelting(ModItems.raw_wolf, new ItemStack(ModItems.cooked_wolf), 0.35f);
         }
 
-        if (Recipes.gelatin) {
+        if (RECIPES.gelatin) {
             GameRegistry.addSmelting(Items.BONE, new ItemStack(ModItems.gelatin), 0.35f);
         }
     }
@@ -221,15 +231,6 @@ public class ModRecipes {
     private static NonNullList<Ingredient> toIngredients(ItemStack... ingredients) {
         Ingredient[] list = Arrays.stream(ingredients).map(Ingredient::fromStacks).toArray(Ingredient[]::new);
         return toIngredients(list);
-    }
-
-    private static NonNullList<Ingredient> toIngredients(String oreDictName) {
-        if (OreDictionary.doesOreNameExist(oreDictName)) {
-            List<ItemStack> ingredients = OreDictionary.getOres(oreDictName);
-            ItemStack[] stacks = new ItemStack[ingredients.size()];
-            return toIngredients(Ingredient.fromStacks(stacks));
-        }
-        return NonNullList.create();
     }
 
     private static Ingredient toIngredient(String oreDictName) {

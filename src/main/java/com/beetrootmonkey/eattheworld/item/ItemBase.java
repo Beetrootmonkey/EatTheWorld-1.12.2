@@ -1,6 +1,6 @@
 package com.beetrootmonkey.eattheworld.item;
 
-import com.beetrootmonkey.eattheworld.init.Main;
+import com.beetrootmonkey.eattheworld.Main;
 
 import net.minecraft.item.Item;
 

@@ -1,10 +1,9 @@
 package com.beetrootmonkey.eattheworld.item.armor;
 
-import com.beetrootmonkey.eattheworld.init.Main;
+import com.beetrootmonkey.eattheworld.Main;
 import com.beetrootmonkey.eattheworld.item.ItemModelProvider;
 
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 
 public class ItemModArmor extends ItemArmor implements ItemModelProvider {

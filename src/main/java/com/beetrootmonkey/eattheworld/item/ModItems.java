@@ -1,7 +1,6 @@
 package com.beetrootmonkey.eattheworld.item;
 
-import com.beetrootmonkey.eattheworld.config.Cfg.Recipes;
-import com.beetrootmonkey.eattheworld.init.Main;
+import com.beetrootmonkey.eattheworld.Main;
 import com.beetrootmonkey.eattheworld.item.edible.ItemModFood;
 import com.beetrootmonkey.eattheworld.item.fuel.ItemFuel;
 import net.minecraft.item.Item;
@@ -10,6 +9,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Arrays;
+
+import static com.beetrootmonkey.eattheworld.config.ModConfig.RECIPES;
 
 @ObjectHolder(Main.MOD_ID)
 public class ModItems {
@@ -33,8 +34,6 @@ public class ModItems {
     public static Item cooked_silverfish;
     @ObjectHolder("cooked_spider_eye")
     public static Item cooked_spider_eye;
-    @ObjectHolder("cooked_spider_leg")
-    public static Item cooked_spider_leg;
     @ObjectHolder("cooked_squid")
     public static Item cooked_squid;
     @ObjectHolder("cooked_villager")
@@ -77,8 +76,6 @@ public class ModItems {
     public static Item raw_shulker;
     @ObjectHolder("raw_silverfish")
     public static Item raw_silverfish;
-    @ObjectHolder("raw_spider_leg")
-    public static Item raw_spider_leg;
     @ObjectHolder("raw_squid")
     public static Item raw_squid;
     @ObjectHolder("raw_villager")
@@ -100,12 +97,11 @@ public class ModItems {
                     new ItemModFood("cooked_shulker", 4, 8f, true),
                     new ItemModFood("cooked_silverfish", 4, 5f, true),
                     new ItemModFood("cooked_spider_eye", 4, 5f, true),
-                    new ItemModFood("cooked_spider_leg", 1, 1f, true),
                     new ItemModFood("cooked_squid", 5, 8f, true),
                     new ItemModFood("cooked_villager", 6, 9.6f, true),
                     new ItemModFood("cooked_wolf", 5, 6f, true),
                     new ItemBase("dough"),
-                    new ItemFuel("fat", Recipes.fatAsFuel),
+                    new ItemFuel("fat", RECIPES.fatAsFuel),
                     new ItemBase("flour"),
                     new ItemFuel("fuel_pellet", 200),
                     new ItemBase("gelatin"),
@@ -122,7 +118,6 @@ public class ModItems {
                     new ItemModFood("raw_horse", 3, 1.8f, true),
                     new ItemModFood("raw_shulker", 1, 0.1f, true),
                     new ItemModFood("raw_silverfish", 1, 0.1f, true),
-                    new ItemModFood("raw_spider_leg", 1, 0.2f, true),
                     new ItemModFood("raw_squid", 2, 0.4f, true),
                     new ItemModFood("raw_villager", 2, 0.4f, true),
                     new ItemModFood("raw_wolf", 2, 0.4f, true),

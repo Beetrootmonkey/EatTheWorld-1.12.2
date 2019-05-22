@@ -7,11 +7,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class DummyRecipe implements IRecipe {
-
 	@Override
 	public IRecipe setRegistryName(ResourceLocation name) {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 
 	@Override

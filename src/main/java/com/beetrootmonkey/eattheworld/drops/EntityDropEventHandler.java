@@ -1,22 +1,5 @@
 package com.beetrootmonkey.eattheworld.drops;
 
-import com.beetrootmonkey.eattheworld.config.Cfg;
-import com.beetrootmonkey.eattheworld.config.Cfg.Drops;
-import com.beetrootmonkey.eattheworld.init.Main;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootEntry;
-import net.minecraft.world.storage.loot.LootEntryTable;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.RandomValueRange;
-import net.minecraft.world.storage.loot.conditions.LootCondition;
-import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
 public class EntityDropEventHandler {
     // @SubscribeEvent
     // public void onEntityDrop(LivingDropsEvent event) {

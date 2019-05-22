@@ -1,4 +1,4 @@
-package com.beetrootmonkey.eattheworld.init;
+package com.beetrootmonkey.eattheworld;
 
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = Main.MOD_ID, name = Main.MOD_NAME, version = Main.MOD_VERSION, acceptedMinecraftVersions = Main.MC_VERSIONS, guiFactory = Main.GUI_FACTORY)
+@Mod(modid = Main.MOD_ID, name = Main.MOD_NAME, version = Main.MOD_VERSION, acceptedMinecraftVersions = Main.MC_VERSIONS)
 public class Main {
 
     public static final ModTab creativeTab = new ModTab();
@@ -23,7 +23,6 @@ public class Main {
     static final String MOD_NAME = "EatTheWorld";
     static final String MOD_VERSION = "0.1.0";
     static final String MC_VERSIONS = "[1.12.2]";
-    static final String GUI_FACTORY = "com.beetrootmonkey.eattheworld.config.ConfigGUIFactory";
     public static final Logger LOG = LogManager.getLogger(MOD_ID);
 
     @SidedProxy(serverSide = "com.beetrootmonkey.eattheworld.proxy.ServerProxy", clientSide = "com.beetrootmonkey.eattheworld.proxy.ClientProxy")

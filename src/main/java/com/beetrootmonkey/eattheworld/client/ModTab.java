@@ -1,6 +1,6 @@
 package com.beetrootmonkey.eattheworld.client;
 
-import com.beetrootmonkey.eattheworld.init.Main;
+import com.beetrootmonkey.eattheworld.Main;
 import com.beetrootmonkey.eattheworld.item.ModItems;
 
 import net.minecraft.creativetab.CreativeTabs;
