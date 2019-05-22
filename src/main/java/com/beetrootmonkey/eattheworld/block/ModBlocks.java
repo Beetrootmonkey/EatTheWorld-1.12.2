@@ -5,6 +5,7 @@ import com.beetrootmonkey.eattheworld.item.ItemModelProvider;
 
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -32,7 +33,7 @@ public class ModBlocks {
         if (block instanceof BlockBase) {
             Class<? extends TileEntity> clazz = ((BlockBase) block).getTEClass();
             if (clazz != null) {
-                GameRegistry.registerTileEntity(clazz, Main.MOD_ID + ":" + clazz.getSimpleName().toLowerCase());
+                GameRegistry.registerTileEntity(clazz, new ResourceLocation(Main.MOD_ID + ":" + clazz.getSimpleName().toLowerCase()));
             }
         }
     }
